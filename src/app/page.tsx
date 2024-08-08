@@ -19,11 +19,11 @@ export default function Home() {
     //   </div>
     // </div>
     <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel className="h-screen" maxSize={30} minSize={20}>
+      <ResizablePanel className="h-screen" maxSize={30} minSize={20} defaultSize={20}>
         <Sidepanel />
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel className="h-screen">
+      <ResizablePanel className="h-screen" defaultSize={80}>
         <div className="flex flex-col h-full">
           {/* notes panel header */}
           <NotesTitleBar />

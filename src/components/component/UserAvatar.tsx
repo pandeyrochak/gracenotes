@@ -13,7 +13,8 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 
 const UserAvatar = () => {
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,7 +22,9 @@ const UserAvatar = () => {
           <Avatar className="h-5 w-5">
             <AvatarImage
               src="/placeholder-user.svg"
-              className={theme === "dark" ? "filter-white" : ""}
+              className={
+                theme === "dark" || systemTheme === "dark" ? "filter-white" : ""
+              }
             />
             <AvatarFallback>RP</AvatarFallback>
           </Avatar>
@@ -43,7 +46,11 @@ const UserAvatar = () => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
+          <Link
+            href="/login"
+            className="flex items-center gap-2"
+            prefetch={false}
+          >
             <LogOutIcon className="h-4 w-4" />
             <span>Logout</span>
           </Link>

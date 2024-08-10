@@ -20,13 +20,8 @@ const UserAvatar = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
           <Avatar className="h-5 w-5">
-            <AvatarImage
-              src="/placeholder-user.svg"
-              className={
-                theme === "dark" || systemTheme === "dark" ? "filter-white" : ""
-              }
-            />
-            <AvatarFallback>RP</AvatarFallback>
+            <AvatarImage src="" />
+            <AvatarFallback className="bg-transparent">RP</AvatarFallback>
           </Avatar>
           <span className="sr-only">Open user menu</span>
         </Button>

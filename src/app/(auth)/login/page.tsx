@@ -1,24 +1,50 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
+import { login } from "./actions";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ThemeToggle } from "@/components/component/ThemeToggleIcon";
 
-export default function Component() {
+export default function LoginComponent() {
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const result = await login(formData);
+    if (result.error) {
+      setError(result.error);
+    }
+    if (result.success) {
+      router.push("/");
+    }
+  };
+
   return (
     <div className="grid h-screen w-full place-items-center bg-background">
+      <div className="absolute top-3 right-5">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-md space-y-4 rounded-lg border bg-card p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Login</h2>
         </div>
         <Separator className="my-4" />
-        <form className="space-y-4">
+        <p className={`text-sm text-destructive ${error ? "block" : "hidden"}`}>
+          {error}
+        </p>
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
+              name="email"
               placeholder="john@example.com"
               required
             />
@@ -26,9 +52,12 @@ export default function Component() {
 
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" required />
+            <Input id="password" type="password" name="password" required />
           </div>
-          <Button className="w-full">Sign in</Button>
+          {/* Button to login */}
+          <Button className="w-full" type="submit">
+            Login
+          </Button>
           <div className="flex justify-between">
             <Link href="#" className="text-sm underline" prefetch={false}>
               Forgot password?
@@ -42,6 +71,7 @@ export default function Component() {
             </Link>
           </div>
         </form>
+
         {/* google and github buttons */}
         <Separator className="mt-7 mb-5" />
         <div className="space-y-4">

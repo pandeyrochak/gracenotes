@@ -11,10 +11,18 @@ import {
 import { LogOutIcon, SettingsIcon, User, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import logout from "@/app/(auth)/logout/logoutAction";
+import { useRouter } from "next/navigation";
 
 const UserAvatar = () => {
   const { theme, systemTheme } = useTheme();
-
+  const router = useRouter();
+  const handleLogout = async () => {
+    const response = await logout();
+    if (response.success) {
+      router.push("/login");
+    }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -45,6 +53,7 @@ const UserAvatar = () => {
             href="/login"
             className="flex items-center gap-2"
             prefetch={false}
+            onClick={handleLogout}
           >
             <LogOutIcon className="h-4 w-4" />
             <span>Logout</span>

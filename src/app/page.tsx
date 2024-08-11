@@ -6,20 +6,24 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
+
   return (
-    // <div className="grid h-screen w-full grid-cols-[350px_1fr] bg-background">
-    //   <Sidepanel />
-    //   <div className="flex flex-col">
-    //     {/* notes panel header */}
-    //     <NotesTitleBar />
-    //     {/* Notes View */}
-    //     <NotesView />
-    //   </div>
-    // </div>
     <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel className="h-screen" maxSize={30} minSize={20} defaultSize={20}>
+      <ResizablePanel
+        className="h-screen"
+        maxSize={30}
+        minSize={20}
+        defaultSize={20}
+      >
         <Sidepanel />
       </ResizablePanel>
       <ResizableHandle withHandle />

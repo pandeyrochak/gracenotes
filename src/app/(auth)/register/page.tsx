@@ -33,7 +33,7 @@ export default function Component() {
   };
   return (
     <div className="grid h-screen w-full place-items-center bg-background">
-      <div className="w-full max-w-md space-y-4 rounded-lg border bg-card p-6 shadow-lg">
+      <div className="w-full max-w-lg space-y-4 rounded-lg border bg-card p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Create account</h2>
         </div>
@@ -42,10 +42,26 @@ export default function Component() {
           {error}
         </p>
         <form onSubmit={handleSignup} className="space-y-4">
-          {/* <div className="grid gap-2">
-            <Label htmlFor="email">Fullname</Label>
-            <Input id="fullname" type="text" placeholder="John Doe" required />
-          </div> */}
+          <div className="flex gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="first_name">First Name</Label>
+              <Input
+                id="first_name"
+                type="text"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="email">Last Name</Label>
+              <Input
+                id="last_name"
+                type="text"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input

@@ -30,7 +30,7 @@ export default function LoginComponent() {
       <div className="absolute top-3 right-5">
         <ThemeToggle />
       </div>
-      <div className="w-full max-w-md space-y-4 rounded-lg border bg-card p-6 shadow-lg">
+      <div className="w-full max-w-lg space-y-4 rounded-lg border bg-card p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Login</h2>
         </div>

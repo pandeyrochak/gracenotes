@@ -27,37 +27,7 @@ const Sidepanel = () => {
       </div>
       <Separator className="my-4" />
       <NoteFolder />
-      <Collapsible>
-        <div className="space-y-2">
-          <CollapsibleTrigger className="flex items-center justify-between rounded-md px-3 py-2 font-medium transition-colors hover:bg-muted w-full">
-            <div className="truncate text-muted-foreground">Personal Notes</div>
-            <div className="h-4 w-4 text-muted-foreground" />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-1 pl-4">
-            <Link
-              href="#"
-              className="block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted text-muted-foreground"
-              prefetch={false}
-            >
-              Grocery List
-            </Link>
-            <Link
-              href="#"
-              className="block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted text-muted-foreground"
-              prefetch={false}
-            >
-              Vacation Planning
-            </Link>
-            <Link
-              href="#"
-              className="block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted text-muted-foreground"
-              prefetch={false}
-            >
-              Fitness Goals
-            </Link>
-          </CollapsibleContent>
-        </div>
-      </Collapsible>
+      <NoteFolder />
     </div>
   );
 };

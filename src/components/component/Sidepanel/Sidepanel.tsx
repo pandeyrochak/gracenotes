@@ -9,7 +9,7 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/component/ThemeToggleIcon";
 import UserAvatar from "@/components/component/UserAvatar";
-import NoteFolder from "@/components/component/Sidepanel/NoteFolder";
+import Folder from "@/components/component/Sidepanel/Folder/Folder";
 
 const Sidepanel = () => {
   return (
@@ -26,8 +26,8 @@ const Sidepanel = () => {
         </div>
       </div>
       <Separator className="my-4" />
-      <NoteFolder />
-      <NoteFolder />
+      <Folder />
+      <Folder />
     </div>
   );
 };

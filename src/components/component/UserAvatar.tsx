@@ -51,7 +51,7 @@ const UserAvatar = () => {
         <DropdownMenuItem>
           <Link
             href="/login"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full h-full"
             prefetch={false}
             onClick={handleLogout}
           >

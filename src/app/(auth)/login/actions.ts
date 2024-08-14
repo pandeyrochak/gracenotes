@@ -35,12 +35,40 @@ export async function signup(formData: FormData) {
     password: formData.get("password") as string,
   };
 
-  const { error } = await supabase.auth.signUp(data);
+  // @ts-ignore
+  const { error, signUpData } = await supabase.auth.signUp(data);
 
   if (error) {
     return { error: error.message };
   }
+  console.log("signUpData", JSON.stringify(signUpData));
+  // update DIsplay name in user profile
+  // @ts-ignore
+  // const { updateError } = await supabase.from("profiles").upsert({
+  //   id: signUpData?.user?.id,
+  //   display_name: signUpData?.user?.email,
+  // });
+  // if (updateError) {
+  //   return { updateError: updateError.message, success: true };
+  // }
 
   revalidatePath("/", "layout");
+  return { success: true };
+}
+
+export async function loginWithGoogle() {
+  console.log("loginWithGoogle");
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: "http://localhost:3000/auth/callback",
+    },
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+  redirect(data.url);
   return { success: true };
 }

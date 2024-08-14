@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
-import { login } from "./actions";
+import { login, loginWithGoogle } from "./actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/component/ThemeToggleIcon";
@@ -23,6 +23,14 @@ export default function LoginComponent() {
     if (result.success) {
       router.push("/");
     }
+  };
+  // handle sign in with google
+  const handleSignInWithGoogle = async () => {
+    const result = await loginWithGoogle();
+    if (result.error) {
+      setError(result.error);
+    }
+    window.alert("Login success");
   };
 
   return (
@@ -79,7 +87,11 @@ export default function LoginComponent() {
             <GithubIcon className="mr-2 h-4 w-4" />
             Sign in with Github
           </Button>
-          <Button variant="outline" className="w-full">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleSignInWithGoogle}
+          >
             <MailIcon className="mr-2 h-4 w-4" />
             Sign in with Google
           </Button>

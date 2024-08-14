@@ -48,15 +48,17 @@ export default function Component() {
               <Input
                 id="first_name"
                 type="text"
+                name="first_name"
                 placeholder="John Doe"
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="email">Last Name</Label>
+              <Label htmlFor="last_name">Last Name</Label>
               <Input
                 id="last_name"
                 type="text"
+                name="last_name"
                 placeholder="John Doe"
                 required
               />

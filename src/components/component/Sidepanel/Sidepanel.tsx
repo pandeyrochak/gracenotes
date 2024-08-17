@@ -15,7 +15,9 @@ const Sidepanel = () => {
   return (
     <div className="border-r bg-muted/40 p-4 h-full w-full">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Grace Notes</h2>
+        <Link href="/" className="text-lg font-semibold">
+          Grace Notes
+        </Link>
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <UserAvatar />
@@ -26,8 +28,8 @@ const Sidepanel = () => {
         </div>
       </div>
       <Separator className="my-4" />
-      <Folder />
-      <Folder />
+      <Folder id="1" title="Work Notes" notes={[]} />
+      <Folder id="2" title="Personal Notes" notes={[]} />
     </div>
   );
 };

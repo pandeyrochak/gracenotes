@@ -6,8 +6,9 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Folder as FolderIcon } from "lucide-react";
+import { FolderProps } from "@/types/interfaces";
 
-const Folder = () => {
+const Folder = ({ id, title, notes }: FolderProps) => {
   return (
     <NoteFolderWrapper>
       <div className="space-y-2">
@@ -15,14 +16,18 @@ const Folder = () => {
           <div className="truncate text-muted-foreground flex items-center justify-between w-full">
             <div className="flex items-center">
               <FolderIcon className="h-5 w-5 mr-2" />
-              Work Notes
+              {title}
             </div>
             <FolderContextMenu />
           </div>
           <div className="h-4 w-4 text-muted-foreground" />
         </CollapsibleTrigger>
         <CollapsibleContent className="space-y-1 pl-2 ml-4 CollapsibleFolder border-l-2 border-muted">
-          <Note />
+          <Note
+            id="1"
+            title="Meeting Agenda"
+            content="This is a meeting agenda"
+          />
         </CollapsibleContent>
       </div>
     </NoteFolderWrapper>

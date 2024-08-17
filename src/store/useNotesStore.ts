@@ -37,6 +37,7 @@ export const useNotesStore = create(
       currentUserId: "",
       activeNoteId: "",
       fileDirectory: [],
+      activeNoteContent: "",
       // store ends
     })),
     { name: "notesStore", enabled: initZustandDevTools(), trace: true }

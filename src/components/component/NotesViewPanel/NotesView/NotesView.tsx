@@ -1,31 +1,55 @@
-import React from "react";
+"use client";
+import React, { Suspense, useRef } from "react";
+import { ForwardRefEditor } from "../../Editor/ForwardRefEditor";
+import { Button } from "@/components/ui/button";
+const markdown = `# Welcome to GraceNotes
 
+## Introduction
+This is a sample note to demonstrate the capabilities of our markdown editor.
+
+### Key Features
+- **Rich Text Formatting**: Bold, italic, underline, and more
+- **Lists**: Bullet points and numbered lists
+- **Headings**: Multiple levels of headings for organization
+
+## Sample Content
+
+### To-Do List
+- [ ] Complete project proposal
+- [ ] Review team feedback
+- [x] Schedule team meeting
+
+### Code Snippet
+\`\`\`javascript
+function greet(name) {
+  console.log(\`Hello, \${name}!\`);
+}
+greet('User');
+\`\`\`
+
+### Quote
+> The only way to do great work is to love what you do. - Steve Jobs
+
+---
+
+Feel free to edit this note and explore the editor's features!`;
 const NotesView = () => {
+  const editorRef = useRef<any>(null);
+  const getNotesMarkdown = () => {
+    const markdown = editorRef.current.getMarkdown();
+    console.log(markdown);
+  };
   return (
-    <div className="flex-1 p-4">
-      <div className="prose text-white">
-        <h3>Agenda</h3>
-        <ul>
-          <li>Discuss project timeline</li>
-          <li>Review team responsibilities</li>
-          <li>Finalize deliverables</li>
-        </ul>
-        <h3>Notes</h3>
-        <p>
-          The team discussed the project timeline and agreed to adjust the
-          deadlines for the next phase. We also reviewed each team member&apos;s
-          responsibilities and made some updates to the deliverables.
-        </p>
-        <pre>
-          <code>
-            const myFunction = (param) =&gt; &#123;console.log(`Hello,
-            $&#123;param&#125;!`)&#125;; myFunction(&apos;world&apos;);
-          </code>
-        </pre>
-      </div>
-      <div className="text-sm text-muted-foreground mt-4">
-        Last update at 12:00pm
-      </div>
+    <div
+      className="flex-1 p-4 flex flex-col"
+      style={{ height: "calc(100vh - 76px)", overflowY: "hidden" }}
+    >
+      {/* <Button variant={"default"} onClick={getNotesMarkdown} className="w-fit">
+        Get markdown
+      </Button> */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <ForwardRefEditor markdown={markdown} ref={editorRef} />
+      </Suspense>
     </div>
   );
 };

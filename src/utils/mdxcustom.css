@@ -1,0 +1,18 @@
+.mdxeditor {
+  overflow-y: auto;
+}
+.mdxeditor::-webkit-scrollbar {
+  display: none;
+}
+
+.mdxeditor {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.dark .mdxeditor {
+  --baseBg: #0e1421;
+  --baseTextContrast: var(--baseBorderHover);
+  --baseBgActive: var(--slate-11);
+  --basePageBg: var(--slate-12);
+  --baseText: white;
+}

@@ -21,7 +21,7 @@ export async function login(formData: FormData) {
     return { error: error.message };
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/home", "layout");
   return { success: true };
 }
 
@@ -52,7 +52,7 @@ export async function signup(formData: FormData) {
   //   return { updateError: updateError.message, success: true };
   // }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/home", "layout");
   return { success: true };
 }
 

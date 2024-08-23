@@ -62,7 +62,7 @@ export async function loginWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.HOME_URL}/auth/callback`,
+      redirectTo: `https://gracenotes.vercel.app/auth/callback`,
     },
   });
 

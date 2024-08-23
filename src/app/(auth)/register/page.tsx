@@ -7,7 +7,7 @@ import { GithubIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { signup } from "../login/actions";
+import { signup } from "@/server-actions/actions";
 
 export default function Component() {
   const [error, setError] = useState<string | null>(null);

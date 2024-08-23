@@ -15,7 +15,7 @@ const Sidepanel = () => {
   return (
     <div className="border-r bg-muted/40 p-4 h-full w-full">
       <div className="flex items-center justify-between">
-        <Link href="/" className="text-lg font-semibold">
+        <Link href="/home" className="text-lg font-semibold">
           Grace Notes
         </Link>
         <div className="flex items-center gap-2">

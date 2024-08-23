@@ -28,6 +28,11 @@ const Folder = ({ id, title, notes }: FolderProps) => {
             title="Meeting Agenda"
             content="This is a meeting agenda"
           />
+          <Note
+            id="2"
+            title="Meeting Agenda"
+            content="This is a meeting agenda"
+          />
         </CollapsibleContent>
       </div>
     </NoteFolderWrapper>

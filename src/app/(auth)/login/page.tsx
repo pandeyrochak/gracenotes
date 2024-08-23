@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
-import { login, loginWithGoogle } from "./actions";
+import { login, loginWithGoogle } from "@/server-actions/actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/component/ThemeToggleIcon";

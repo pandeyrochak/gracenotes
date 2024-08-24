@@ -62,7 +62,7 @@ export async function loginWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.HOME_URL}/auth/callback`,
+      redirectTo: `http://localhost:3000/auth/callback`,
     },
   });
 
@@ -71,4 +71,22 @@ export async function loginWithGoogle() {
   }
   redirect(data.url);
   return { success: true };
+}
+
+// get current active user
+export async function getCurrentUserInfo() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    return { error: error.message };
+  }
+  return data;
+}
+export async function getCurrentUserId() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    return { error: error.message };
+  }
+  return data.user?.id;
 }

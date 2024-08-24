@@ -1,12 +1,24 @@
 import { NextResponse } from "next/server";
-
-// Dummy user data
-const users = [
-  { id: 1, name: "John Doe", email: "john@example.com" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com" },
-  { id: 3, name: "Bob Johnson", email: "bob@example.com" },
-];
+import { getCurrentUserId } from "@/server-actions/actions";
+import { createClient } from "@/utils/supabase/server";
 
 export async function GET() {
-  return NextResponse.json(users);
+  const supabase = createClient();
+  const userId = await getCurrentUserId();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  // get folders for the logged in user
+  const { data: folders, error: foldersError } = await supabase
+    .from("folders")
+    .select("id,title,user_id")
+    .eq("user_id", userId);
+
+  const { data: notes, error: notesError } = await supabase
+    .from("notes")
+    .select("id,title,folder_id,user_id, content")
+    .is("folder_id", null)
+    .eq("user_id", userId);
+
+  return NextResponse.json({ folders, notes });
 }

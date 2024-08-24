@@ -1,6 +1,7 @@
 "use client";
+import Loading from "@/app/home/loading";
 import { Collapsible } from "@/components/ui/collapsible";
-import { ReactNode, useState } from "react";
+import { ReactNode, Suspense, useState } from "react";
 
 const NoteFolderWrapper = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>(false);

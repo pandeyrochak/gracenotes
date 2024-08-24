@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
   const supabase = createClient();
   // get user id
   const userId = await getCurrentUserId();
+  const { searchParams } = new URL(request.url);
+  const noteId = searchParams.get("noteId")?.toString();
   // if user is not logged in, return 401
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -15,8 +17,9 @@ export async function GET(request: NextRequest) {
   // get notes
   const { data, error } = await supabase
     .from("notes")
-    .select("id, title, content, created_at, user_id")
-    .eq("user_id", userId);
+    .select("content")
+    .eq("user_id", userId)
+    .eq("id", noteId);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

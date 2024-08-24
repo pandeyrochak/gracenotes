@@ -11,34 +11,70 @@ interface NotesStoreState {
   currentUserId: string;
   activeNoteContent: string;
   activeNoteId: string;
-  fileDirectory: any[];
+  fileDirectory: fileDirectory;
+  folderNotes: Record<string, Note[]>;
+  updateFileDirectory: (directory: any) => boolean;
+  updateCurrentUserId: (userId: string) => boolean;
+  updateActiveNoteId: (noteId: string) => boolean;
+  updateActiveNoteContent: (content: string) => boolean;
+  updateFolderNotes: (folderId: string, notes: Note[]) => boolean;
+}
+interface fileDirectory {
+  folders: Folder[];
+  notes: Note[];
 }
 interface Folder {
   id: string;
   title: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
+  user_id: string;
 }
 interface Note {
   id: string;
   title: string;
-  userId: string;
+  user_id: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
-  folderId: string;
+  created_at: string;
+  folder_id: string;
 }
 
-export const useNotesStore = create(
+export const useNotesStore = create<NotesStoreState>()(
   devtools(
     immer((set) => ({
-      // write your store logic here
       currentUserId: "",
       activeNoteId: "",
-      fileDirectory: [],
+      fileDirectory: { folders: [], notes: [] },
       activeNoteContent: "",
-      // store ends
+      folderNotes: {},
+      updateFileDirectory: (directory: fileDirectory) => {
+        set((state: NotesStoreState) => {
+          state.fileDirectory = directory;
+        });
+        return true;
+      },
+      updateCurrentUserId: (userId: string) => {
+        set((state: NotesStoreState) => {
+          state.currentUserId = userId;
+        });
+        return true;
+      },
+      updateActiveNoteId: (noteId: string) => {
+        set((state: NotesStoreState) => {
+          state.activeNoteId = noteId;
+        });
+        return true;
+      },
+      updateActiveNoteContent: (content: string) => {
+        set((state: NotesStoreState) => {
+          state.activeNoteContent = content;
+        });
+        return true;
+      },
+      updateFolderNotes: (folderId: string, notes: Note[]) => {
+        set((state: NotesStoreState) => {
+          state.folderNotes[folderId] = notes;
+        });
+        return true;
+      },
     })),
     { name: "notesStore", enabled: initZustandDevTools(), trace: true }
   )

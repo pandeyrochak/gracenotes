@@ -33,7 +33,7 @@ greet('User');
 ---
 
 Feel free to edit this note and explore the editor's features!`;
-const NotesView = () => {
+const NotesView = ({ content }: { content: string }) => {
   const editorRef = useRef<any>(null);
   const getNotesMarkdown = () => {
     const markdown = editorRef.current.getMarkdown();
@@ -48,7 +48,7 @@ const NotesView = () => {
         Get markdown
       </Button> */}
       <Suspense fallback={<div>Loading...</div>}>
-        <ForwardRefEditor markdown={markdown} ref={editorRef} />
+        <ForwardRefEditor markdown={content} ref={editorRef} />
       </Suspense>
     </div>
   );

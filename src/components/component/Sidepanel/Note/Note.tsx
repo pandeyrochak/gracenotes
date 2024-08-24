@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { NoteProps } from "@/types/interfaces";
 
-const Note = ({ id, title, content }: NoteProps) => {
+const Note = ({ id, title }: NoteProps) => {
   return (
     <Link
       href={`/home/note/${id}`}

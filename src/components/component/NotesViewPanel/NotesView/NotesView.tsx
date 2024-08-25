@@ -2,6 +2,7 @@
 import React, { Suspense, useRef } from "react";
 import { ForwardRefEditor } from "../../Editor/ForwardRefEditor";
 import { Button } from "@/components/ui/button";
+import { useNotesStore } from "@/store/useNotesStore";
 const markdown = `# Welcome to GraceNotes
 
 ## Introduction
@@ -33,8 +34,9 @@ greet('User');
 ---
 
 Feel free to edit this note and explore the editor's features!`;
-const NotesView = ({ content }: { content: string }) => {
+const NotesView = () => {
   const editorRef = useRef<any>(null);
+  const { currentNote } = useNotesStore();
   const getNotesMarkdown = () => {
     const markdown = editorRef.current.getMarkdown();
     console.log(markdown);
@@ -48,7 +50,7 @@ const NotesView = ({ content }: { content: string }) => {
         Get markdown
       </Button> */}
       <Suspense fallback={<div>Loading...</div>}>
-        <ForwardRefEditor markdown={content} ref={editorRef} />
+        <ForwardRefEditor markdown={currentNote.content} ref={editorRef} />
       </Suspense>
     </div>
   );

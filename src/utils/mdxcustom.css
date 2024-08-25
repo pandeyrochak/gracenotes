@@ -6,8 +6,11 @@
 }
 
 .mdxeditor {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.mdxeditor {
+  --baseTextContrast: black;
 }
 .dark .mdxeditor {
   --baseBg: #0e1421;
@@ -15,4 +18,19 @@
   --baseBgActive: var(--slate-11);
   --basePageBg: var(--slate-12);
   --baseText: white;
+}
+.mdxeditor h1,
+.mdxeditor h2,
+.mdxeditor h3,
+.mdxeditor h4,
+.mdxeditor h5,
+.mdxeditor h6, 
+.mdxeditor strong {
+  color: var(--muted-foreground);
+}
+.mdxeditor a {
+  color: var(--primary);
+}
+.mdxeditor blockquote {
+  color: var(--baseTextContrast);
 }

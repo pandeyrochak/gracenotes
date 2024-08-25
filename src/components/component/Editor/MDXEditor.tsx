@@ -1,5 +1,6 @@
 "use client";
 // InitializedMDXEditor.tsx
+import { EditorFont } from "@/utils/fonts/nextFonts";
 import "@/utils/mdxcustom.css";
 import {
   BoldItalicUnderlineToggles,
@@ -48,7 +49,7 @@ export default function InitializedMDXEditor({
       ]}
       {...props}
       ref={editorRef}
-      contentEditableClassName="prose dark:prose-invert"
+      contentEditableClassName={`prose dark:prose-invert ${EditorFont.className}`}
     />
   );
 }

@@ -1,29 +1,36 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { getCurrentUserId } from "@/server-actions/actions";
 import { createClient } from "@/utils/supabase/server";
+import { ApiError, ApiResponse, asyncHandler } from "@/utils/ApiResponse";
 
 // GET /api/v1/notes
-export async function GET(request: NextRequest) {
-  // supabase client
+export const GET = asyncHandler(async (req: NextRequest) => {
   const supabase = createClient();
-  // get user id
   const userId = await getCurrentUserId();
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(req.url);
   const noteId = searchParams.get("noteId")?.toString();
-  // if user is not logged in, return 401
+
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError(401, "Unauthorized");
   }
-  // get notes
+
+  if (!noteId) {
+    throw new ApiError(400, "Note ID is required");
+  }
+
   const { data, error } = await supabase
     .from("notes")
-    .select("content")
+    .select("content, title")
     .eq("user_id", userId)
     .eq("id", noteId);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    throw new ApiError(500, `Error fetching note: ${error.message}`);
   }
-  // return notes
-  return NextResponse.json({ data });
-}
+
+  if (!data || data.length === 0) {
+    throw new ApiError(404, "Note not found");
+  }
+
+  return ApiResponse.success(data[0], "Note fetched successfully");
+});

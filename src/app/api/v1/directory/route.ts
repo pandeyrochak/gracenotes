@@ -1,24 +1,35 @@
-import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { getCurrentUserId } from "@/server-actions/actions";
 import { createClient } from "@/utils/supabase/server";
+import { ApiError, ApiResponse, asyncHandler } from "@/utils/ApiResponse";
 
-export async function GET() {
+export const GET = asyncHandler(async (req: NextRequest) => {
   const supabase = createClient();
   const userId = await getCurrentUserId();
+
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError(401, "Unauthorized");
   }
-  // get folders for the logged in user
-  const { data: folders, error: foldersError } = await supabase
-    .from("folders")
-    .select("id,title,user_id")
-    .eq("user_id", userId);
 
-  const { data: notes, error: notesError } = await supabase
-    .from("notes")
-    .select("id,title,folder_id,user_id, content")
-    .is("folder_id", null)
-    .eq("user_id", userId);
+  const [
+    { data: folders, error: foldersError },
+    { data: notes, error: notesError },
+  ] = await Promise.all([
+    supabase.from("folders").select("id,title,user_id").eq("user_id", userId),
+    supabase
+      .from("notes")
+      .select("id,title,folder_id,user_id,content")
+      .is("folder_id", null)
+      .eq("user_id", userId),
+  ]);
 
-  return NextResponse.json({ folders, notes });
-}
+  if (foldersError)
+    throw new ApiError(500, `Error fetching folders: ${foldersError.message}`);
+  if (notesError)
+    throw new ApiError(500, `Error fetching notes: ${notesError.message}`);
+
+  return ApiResponse.success(
+    { folders, notes },
+    "Directory fetched successfully"
+  );
+});

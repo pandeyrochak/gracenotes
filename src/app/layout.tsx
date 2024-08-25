@@ -1,9 +1,7 @@
 import { ThemeProvider } from "@/context/ThemeProvider";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { BodyFont } from "@/utils/fonts/nextFonts";
 
 export const metadata: Metadata = {
   title: "Gracenotes",
@@ -17,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${BodyFont.className}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

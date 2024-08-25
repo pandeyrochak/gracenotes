@@ -4,6 +4,7 @@ import UserAvatar from "@/components/component/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { FilePlus2Icon, LucideFolderPlus } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -13,7 +14,7 @@ const Sidepanel = () => {
       <div className="flex items-center justify-between">
         {/* TODO: Add logo here */}
         <Link href="/home" className="text-lg font-semibold">
-          GN
+          <Image src="/favicon.ico" alt="logo" width={20} height={20} className="home-icon"/>
         </Link>
 
         <div className="flex items-center gap-2">
@@ -32,7 +33,7 @@ const Sidepanel = () => {
       <Separator className="my-4" />
       {/* <Suspense fallback={<div>Loading...</div>}>
       </Suspense> */}
-        <DirectoryList />
+      <DirectoryList />
     </div>
   );
 };

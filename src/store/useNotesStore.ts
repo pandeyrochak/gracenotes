@@ -9,14 +9,20 @@ export const initZustandDevTools = (stores = []) => {
 };
 interface NotesStoreState {
   currentUserId: string;
-  activeNoteContent: string;
-  activeNoteId: string;
+  currentNote: {
+    title: string;
+    content: string;
+    id: string;
+  };
   fileDirectory: fileDirectory;
   folderNotes: Record<string, Note[]>;
+  updateCurrentNote: (note: {
+    title: string;
+    content: string;
+    id: string;
+  }) => boolean;
   updateFileDirectory: (directory: any) => boolean;
   updateCurrentUserId: (userId: string) => boolean;
-  updateActiveNoteId: (noteId: string) => boolean;
-  updateActiveNoteContent: (content: string) => boolean;
   updateFolderNotes: (folderId: string, notes: Note[]) => boolean;
 }
 interface fileDirectory {
@@ -41,10 +47,10 @@ export const useNotesStore = create<NotesStoreState>()(
   devtools(
     immer((set) => ({
       currentUserId: "",
-      activeNoteId: "",
       fileDirectory: { folders: [], notes: [] },
-      activeNoteContent: "",
       folderNotes: {},
+      currentNote: { title: "", content: "", id: "" },
+
       updateFileDirectory: (directory: fileDirectory) => {
         set((state: NotesStoreState) => {
           state.fileDirectory = directory;
@@ -57,21 +63,20 @@ export const useNotesStore = create<NotesStoreState>()(
         });
         return true;
       },
-      updateActiveNoteId: (noteId: string) => {
-        set((state: NotesStoreState) => {
-          state.activeNoteId = noteId;
-        });
-        return true;
-      },
-      updateActiveNoteContent: (content: string) => {
-        set((state: NotesStoreState) => {
-          state.activeNoteContent = content;
-        });
-        return true;
-      },
+
       updateFolderNotes: (folderId: string, notes: Note[]) => {
         set((state: NotesStoreState) => {
           state.folderNotes[folderId] = notes;
+        });
+        return true;
+      },
+      updateCurrentNote: (note: {
+        title: string;
+        content: string;
+        id: string;
+      }) => {
+        set((state: NotesStoreState) => {
+          state.currentNote = note;
         });
         return true;
       },

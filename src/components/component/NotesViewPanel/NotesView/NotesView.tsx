@@ -1,8 +1,9 @@
 "use client";
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { ForwardRefEditor } from "../../Editor/ForwardRefEditor";
 import { Button } from "@/components/ui/button";
 import { useNotesStore } from "@/store/useNotesStore";
+import Loading from "@/app/home/loading";
 const markdown = `# Welcome to GraceNotes
 
 ## Introduction
@@ -41,6 +42,7 @@ const NotesView = () => {
     const markdown = editorRef.current.getMarkdown();
     console.log(markdown);
   };
+  useEffect(() => {}, [currentNote]);
   return (
     <div
       className="flex-1 p-4 flex flex-col"
@@ -49,7 +51,7 @@ const NotesView = () => {
       {/* <Button variant={"default"} onClick={getNotesMarkdown} className="w-fit">
         Get markdown
       </Button> */}
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <ForwardRefEditor markdown={currentNote.content} ref={editorRef} />
       </Suspense>
     </div>

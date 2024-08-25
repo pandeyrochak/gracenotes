@@ -10,20 +10,20 @@ import { useNotesStore } from "@/store/useNotesStore";
 
 const NotePage = () => {
   const { id } = useParams();
-  const [noteContent, setNoteContent] = useState<string>("");
-  const [noteTitle, setNoteTitle] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const { currentNote, updateCurrentNote } = useNotesStore();
+  const { updateCurrentNote } = useNotesStore();
+  const [loading, setLoading] = useState<boolean | null>(true);
 
   const fetchNoteContent = async () => {
     try {
       const response = await axiosInstance.get(`/notes?noteId=${id}`);
       if (response.data.success) {
-        updateCurrentNote({
+        await updateCurrentNote({
           title: response.data.data.title,
           content: response.data.data.content,
           id: id.toString(),
         });
+        setLoading(false);
       } else {
         setError(response.data.message || "An error occurred");
       }
@@ -44,7 +44,7 @@ const NotePage = () => {
   return (
     <>
       <NotesTitleBar />
-      <NotesView />
+      {loading ? <Loading /> : <NotesView />}
     </>
   );
 };

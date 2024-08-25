@@ -29,13 +29,13 @@ const Folder = ({ id, title }: FolderProps) => {
           onClick={fetchFolder}
         >
           <div className="truncate text-muted-foreground flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <FolderIcon className="h-5 w-5 mr-2" />
+            <div className="flex items-center font-normal text-sm">
+              <FolderIcon className="h-4 w-4 mr-2" strokeWidth={"1.5"} />
               {title}
             </div>
             <FolderContextMenu />
           </div>
-          <div className="h-4 w-4 text-muted-foreground" />
+          {/* <div className="h-4 w-4 text-muted-foreground" /> */}
         </CollapsibleTrigger>
         <CollapsibleContent className="space-y-1 pl-2 ml-4 CollapsibleFolder border-l-2 border-muted">
           {tempData ? (

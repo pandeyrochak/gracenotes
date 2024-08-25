@@ -27,7 +27,7 @@ const FolderContextMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="unstyled" size="icon" onClick={handleMenuButtonClick}>
+        <Button variant="unstyled" size="icon" onClick={handleMenuButtonClick} className="h-4 w-4">
           <EllipsisVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>

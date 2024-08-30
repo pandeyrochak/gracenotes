@@ -63,10 +63,11 @@ export async function loginWithGoogle() {
     process.env.NODE_ENV === "production"
       ? "https://gracenotes.vercel.app/auth/callback"
       : "http://localhost:3000/auth/callback";
+  console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: redirectTo,
+      redirectTo,
     },
   });
 

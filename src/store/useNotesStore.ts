@@ -54,6 +54,16 @@ export const useNotesStore = create<NotesStoreState>()(
       updateFileDirectory: (directory: fileDirectory) => {
         set((state: NotesStoreState) => {
           state.fileDirectory = directory;
+          const currentNoteUpdated = directory.notes.find(
+            (note) => note.id === state.currentNote.id
+          );
+          if (currentNoteUpdated) {
+            state.currentNote = {
+              ...state.currentNote,
+              title: currentNoteUpdated.title,
+              content: currentNoteUpdated.content,
+            };
+          }
         });
         return true;
       },

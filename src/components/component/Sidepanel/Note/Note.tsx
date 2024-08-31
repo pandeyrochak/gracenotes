@@ -1,67 +1,109 @@
 "use client";
 import { useToast } from "@/components/ui/use-toast";
-import axiosInstance from "@/lib/axiosInstance";
 import { useNotesStore } from "@/store/useNotesStore";
 import { NoteProps } from "@/types/interfaces";
-import { fetchDirectory } from "@/utils/functions/getFolderDirectory";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import FolderContextMenu from "../Folder/FolderContextMenu";
+import { deleteNote } from "@/utils/functions/deleteNote";
+import { renameNote } from "@/utils/functions/renameNote";
+import { fetchDirectory } from "@/utils/functions/getFolderDirectory";
+
 const Note = ({ id, title }: NoteProps) => {
-  const { toast } = useToast();
-  const { updateFileDirectory } = useNotesStore();
   const [noteTitle, setNoteTitle] = useState(title);
+  const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  // handler to delete a note
-  const deleteNoteHandler = async () => {
-    try {
-      const body = {
-        noteId: id,
-      };
-      const noteDeleteResponse = await axiosInstance.delete("/notes", {
-        data: body,
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const { updateFileDirectory, updateCurrentNote } = useNotesStore();
+  const { toast } = useToast();
+
+  // handler to rename a note
+  const renameNoteHandler = async (newTitle: string) => {
+    const noteRenameResponse = await renameNote(id, title, newTitle);
+    if (noteRenameResponse?.status === 200) {
+      setNoteTitle(newTitle);
+      toast({
+        title: "✅ Renamed",
+        description: `"${title}" has been renamed to "${newTitle}" successfully`,
       });
-      if (noteDeleteResponse.status === 200) {
-        const response = await fetchDirectory();
-        updateFileDirectory(response.data);
-        return {
-          status: 200,
-          message: `"${title}" has been deleted successfully`,
-          title: "Note deleted",
-        };
-      } else {
-        return {
-          status: 400,
-          message: `Error: ${noteDeleteResponse.status}`,
-          title: "Error deleting note",
-        };
+      const updatedFileDirectory = await fetchDirectory();
+      if (updatedFileDirectory.success) {
+        updateFileDirectory(updatedFileDirectory.data);
       }
-    } catch (error) {
-      return {
-        status: 500,
-        message: `Error: ${error}`,
-        title: "Something went wrong",
-      };
+    } else {
+      toast({
+        title: "❌ Error",
+        description: noteRenameResponse?.message,
+      });
+    }
+    setIsEditing(false);
+  };
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      inputRef.current?.blur();
+      // @ts-ignore
+      renameNoteHandler(e.target.value);
+    } else if (e.key === "Escape") {
+      setIsEditing(false);
     }
   };
-  // handler to rename a note
-  const renameNoteHandler = async () => {
-    // TODO: implement rename note
-    alert("rename note");
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    renameNoteHandler(e.target.value);
+  };
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    }
+  }, [isEditing]);
+  const handleLinkClick = (e: React.MouseEvent) => {
+    if (isEditing) {
+      e.preventDefault();
+    }
+  };
+
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isEditing) {
+      e.preventDefault();
+    } else {
+      setIsEditing(true);
+    }
   };
 
   return (
-    <Link
-      href={`/home/note/${id}`}
-      className="sidepanel-note-item rounded-md px-3 pl-0 py-0 text-sm font-normal transition-colors hover:bg-border text-muted-foreground flex justify-between items-center"
-      prefetch={false}
-    >
-      <span className="flex-grow py-2 px-0 pl-3">{noteTitle}</span>
+    <div className="sidepanel-note-item rounded-md px-3 pl-0 py-0 text-sm font-normal transition-colors hover:bg-border text-muted-foreground flex justify-between items-center">
+      <Link
+        ref={linkRef}
+        href={`/home/note/${id}`}
+        className="flex-grow"
+        prefetch={false}
+        onClick={handleLinkClick}
+      >
+        <input
+          ref={inputRef}
+          defaultValue={noteTitle}
+          onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
+          className={`flex-grow py-2 px-0 pl-3 ${
+            isEditing ? "block" : "hidden"
+          }`}
+        />
+        <span
+          className={`flex-grow py-2 px-0 pl-3 ${
+            isEditing ? "hidden" : "block"
+          }`}
+          onDoubleClick={handleDoubleClick}
+        >
+          {noteTitle}
+        </span>
+      </Link>
       <FolderContextMenu
-        deleteHandler={deleteNoteHandler}
-        renameHandler={renameNoteHandler}
+        deleteHandler={() => deleteNote(id, noteTitle)}
+        renameHandler={() => setIsEditing(true)}
       />
-    </Link>
+    </div>
   );
 };
 

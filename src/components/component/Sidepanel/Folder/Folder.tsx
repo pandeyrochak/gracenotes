@@ -34,16 +34,16 @@ const Folder = ({ id, title }: FolderProps) => {
           className="flex items-center justify-between rounded-md px-3 py-2 font-medium transition-colors hover:bg-border w-full"
           onClick={fetchFolder}
         >
-          <div className="truncate text-muted-foreground flex items-center justify-between w-full">
+          <div className="truncate text-muted-foreground flex items-center justify-between flex-grow">
             <div className="flex items-center font-normal text-sm">
               <FolderIcon className="h-4 w-4 mr-2" strokeWidth={"1.5"} />
               {title}
             </div>
-            <FolderContextMenu
-              deleteHandler={deleteFolderHandler}
-              renameHandler={renameFolderHandler}
-            />
           </div>
+          <FolderContextMenu
+            deleteHandler={deleteFolderHandler}
+            renameHandler={renameFolderHandler}
+          />
           {/* <div className="h-4 w-4 text-muted-foreground" /> */}
         </CollapsibleTrigger>
         <CollapsibleContent className="space-y-1 pl-2 ml-4 CollapsibleFolder border-l-2 border-muted">

@@ -111,11 +111,11 @@
 /* Sidepanel */
 .sidepanel-folder-item:hover .note-folder-context-menu,
 .sidepanel-note-item:hover .note-folder-context-menu {
-  scale: 1;
-  transition: scale 0.2s ease-in-out;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .note-folder-context-menu {
-  scale: 0;
-  transition: scale 0.2s ease-in-out;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }

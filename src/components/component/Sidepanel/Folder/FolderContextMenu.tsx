@@ -50,40 +50,61 @@ const FolderContextMenu = ({
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild className="note-folder-context-menu">
+    <>
+      <div className="flex items-center justify-center note-folder-context-menu gap-2">
         <Button
           variant="unstyled"
-          size="icon"
-          onClick={handleMenuButtonClick}
-          className="h-4 w-4"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRenameClick(e);
+          }}
+          className="w-5 h-5 outline-none flex items-center justify-center cursor-pointer hover:bg-accent p-0"
         >
-          <EllipsisVertical className="h-4 w-4" />
+          <PencilIcon className="w-3 h-3" />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" align="start">
-        <DropdownMenuItem asChild>
+        <Button
+          variant="unstyled"
+          onClick={handleDeleteClick}
+          className="w-5 h-5 outline-none flex items-center justify-center cursor-pointer hover:bg-accent p-0"
+        >
+          <TrashIcon className="w-3 h-3 text-destructive" />
+        </Button>
+      </div>
+      {/* <DropdownMenu>
+        <DropdownMenuTrigger asChild className="note-folder-context-menu">
           <Button
             variant="unstyled"
-            onClick={handleRenameClick}
-            className="w-full outline-none justify-start cursor-pointer hover:bg-accent"
+            size="icon"
+            onClick={handleMenuButtonClick}
+            className="h-4 w-4"
           >
-            <PencilIcon className="h-3 w-3 mr-2" />
-            Rename
+            <EllipsisVertical className="h-4 w-4" />
           </Button>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Button
-            variant="unstyled"
-            onClick={handleDeleteClick}
-            className="w-full outline-none justify-start cursor-pointer hover:bg-accent"
-          >
-            <TrashIcon className="h-3 w-3 mr-2" />
-            Delete
-          </Button>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side="bottom" align="start">
+          <DropdownMenuItem asChild>
+            <Button
+              variant="unstyled"
+              onClick={handleRenameClick}
+              className="w-full outline-none justify-start cursor-pointer hover:bg-accent"
+            >
+              <PencilIcon className="h-3 w-3 mr-2" />
+              Rename
+            </Button>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Button
+              variant="unstyled"
+              onClick={handleDeleteClick}
+              className="w-full outline-none justify-start cursor-pointer hover:bg-accent"
+            >
+              <TrashIcon className="h-3 w-3 mr-2" />
+              Delete
+            </Button>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu> */}
+    </>
   );
 };
 

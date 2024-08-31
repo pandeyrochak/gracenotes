@@ -39,12 +39,13 @@ greet('User');
 Feel free to edit this note and explore the editor's features!`;
 const NotesView = () => {
   const editorRef = useRef<any>(null);
-  const { currentNote } = useNotesStore();
+  const { currentNote, updateCurrentNote } = useNotesStore();
   const getNotesMarkdown = () => {
     const markdown = editorRef.current.getMarkdown();
     console.log(markdown);
   };
   const handleEditorChange = debounce(async (markdown: string) => {
+    updateCurrentNote({ ...currentNote, content: markdown });
     useNotesStore.getState().updateCurrentNoteSavedState(false);
     const response = await updateNoteContent(currentNote.id, markdown);
     response?.success &&

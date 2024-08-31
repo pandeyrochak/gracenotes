@@ -5,10 +5,12 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Toaster } from "@/components/ui/toaster";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ResizablePanelGroup direction="horizontal" className="bg-background">
+      <Toaster />
       {/* sidepanle to be available on all pages */}
       <ResizablePanel
         className="h-screen"

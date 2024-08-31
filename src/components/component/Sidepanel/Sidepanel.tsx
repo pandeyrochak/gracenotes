@@ -6,6 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { FilePlus2Icon, LucideFolderPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import AddNoteButton from "@/components/component/Sidepanel/AddNoteButton";
+import AddFolderButton from "@/components/component/Sidepanel/AddFolderButton";
 import { Suspense } from "react";
 
 const Sidepanel = () => {
@@ -14,20 +16,20 @@ const Sidepanel = () => {
       <div className="flex items-center justify-between">
         {/* TODO: Add logo here */}
         <Link href="/home" className="text-lg font-semibold">
-          <Image src="/favicon.ico" alt="logo" width={20} height={20} className="home-icon"/>
+          <Image
+            src="/favicon.ico"
+            alt="logo"
+            width={20}
+            height={20}
+            className="home-icon"
+          />
         </Link>
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <UserAvatar />
-          <Button variant="ghost" size="icon">
-            <FilePlus2Icon className="h-5 w-5" />
-            <span className="sr-only">Add Note</span>
-          </Button>
-          <Button variant="ghost" size="icon">
-            <LucideFolderPlus className="h-5 w-5" />
-            <span className="sr-only">Add Note</span>
-          </Button>
+          <AddNoteButton />
+          <AddFolderButton />
         </div>
       </div>
       <Separator className="my-4" />

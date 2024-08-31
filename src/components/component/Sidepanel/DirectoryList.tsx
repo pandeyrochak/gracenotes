@@ -6,6 +6,8 @@ import Folder from "./Folder/Folder";
 import Note from "./Note/Note";
 import Loading from "@/app/home/loading"; // Adjust the import path as needed
 import { useToast } from "@/components/ui/use-toast";
+import { fetchDirectory } from "@/utils/functions/getFolderDirectory";
+import { Loader2 } from "lucide-react";
 
 const DirectoryList = () => {
   const { updateFileDirectory, fileDirectory } = useNotesStore();
@@ -13,38 +15,38 @@ const DirectoryList = () => {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchDirectory = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axiosInstance.get("/directory");
-      if (response.data.success) {
-        updateFileDirectory(response.data.data);
-      } else {
-        setError(response.data.message || "Failed to fetch directory");
-        toast({
-          title: "Something went wrong",
-          description: response.data.message || "Failed to fetch directory",
-          variant: "destructive",
-        });
-      }
-    } catch (err) {
-      console.error("Error fetching directory:", err);
-      setError("An error occurred while fetching the directory");
+  const fetchAndUpdateDirectory = async () => {
+    setIsLoading(true);
+    const response = await fetchDirectory();
+    if (response.success) {
+      updateFileDirectory(response.data);
+      toast({
+        title: "Directory updated",
+        description: "Directory updated successfully",
+        variant: "default",
+      });
+    } else {
+      setError(response.message);
       toast({
         title: "Something went wrong",
-        description: "An error occurred while fetching the directory",
+        description: response.message,
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchDirectory();
+    fetchAndUpdateDirectory();
   }, []);
 
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return (
+      <p className="text-muted-foreground text-sm flex items-center justify-center">
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Fetching directory...
+      </p>
+    );
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
   return (

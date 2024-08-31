@@ -21,9 +21,15 @@ const Folder = ({ id, title }: FolderProps) => {
     updateFolderNotes(id.toString(), notesForFolder.data);
     setTempData(notesForFolder.data?.notes);
   };
+  const deleteFolderHandler = async () => {
+    // TODO: implement delete folder
+  };
+  const renameFolderHandler = async () => {
+    // TODO: implement rename folder
+  };
   return (
     <NoteFolderWrapper>
-      <div className="space-y-2">
+      <div className="space-y-2 sidepanel-folder-item">
         <CollapsibleTrigger
           className="flex items-center justify-between rounded-md px-3 py-2 font-medium transition-colors hover:bg-border w-full"
           onClick={fetchFolder}
@@ -33,7 +39,10 @@ const Folder = ({ id, title }: FolderProps) => {
               <FolderIcon className="h-4 w-4 mr-2" strokeWidth={"1.5"} />
               {title}
             </div>
-            <FolderContextMenu />
+            <FolderContextMenu
+              deleteHandler={deleteFolderHandler}
+              renameHandler={renameFolderHandler}
+            />
           </div>
           {/* <div className="h-4 w-4 text-muted-foreground" /> */}
         </CollapsibleTrigger>

@@ -4,6 +4,8 @@ import { ForwardRefEditor } from "../../Editor/ForwardRefEditor";
 import { Button } from "@/components/ui/button";
 import { useNotesStore } from "@/store/useNotesStore";
 import Loading from "@/app/home/loading";
+import { debounce } from "lodash";
+import { updateNoteContent } from "@/utils/functions/updateNoteContent";
 const markdown = `# Welcome to GraceNotes
 
 ## Introduction
@@ -42,6 +44,12 @@ const NotesView = () => {
     const markdown = editorRef.current.getMarkdown();
     console.log(markdown);
   };
+  const handleEditorChange = debounce(async (markdown: string) => {
+    useNotesStore.getState().updateCurrentNoteSavedState(false);
+    const response = await updateNoteContent(currentNote.id, markdown);
+    response?.success &&
+      useNotesStore.getState().updateCurrentNoteSavedState(true);
+  }, 2000);
   useEffect(() => {}, [currentNote]);
   return (
     <div
@@ -52,7 +60,11 @@ const NotesView = () => {
         Get markdown
       </Button> */}
       <Suspense fallback={<Loading />}>
-        <ForwardRefEditor markdown={currentNote.content} ref={editorRef} />
+        <ForwardRefEditor
+          markdown={currentNote.content}
+          ref={editorRef}
+          onChange={handleEditorChange}
+        />
       </Suspense>
     </div>
   );

@@ -9,6 +9,7 @@ export const initZustandDevTools = (stores = []) => {
 };
 interface NotesStoreState {
   currentUserId: string;
+  currentNoteSavedState: boolean;
   currentNote: {
     title: string;
     content: string;
@@ -16,6 +17,7 @@ interface NotesStoreState {
   };
   fileDirectory: fileDirectory;
   folderNotes: Record<string, Note[]>;
+  updateCurrentNoteSavedState: (state: boolean) => void;
   updateCurrentNote: (note: {
     title: string;
     content: string;
@@ -50,7 +52,13 @@ export const useNotesStore = create<NotesStoreState>()(
       fileDirectory: { folders: [], notes: [] },
       folderNotes: {},
       currentNote: { title: "", content: "", id: "" },
-
+      currentNoteSavedState: true,
+      updateCurrentNoteSavedState: (status: boolean) => {
+        set((state: NotesStoreState) => {
+          state.currentNoteSavedState = status;
+        });
+        return true;
+      },
       updateFileDirectory: (directory: fileDirectory) => {
         set((state: NotesStoreState) => {
           state.fileDirectory = directory;

@@ -119,6 +119,8 @@ export const PUT = asyncHandler(async (req: NextRequest) => {
     .eq("id", noteId)
     .single();
 
+  console.log(`===data: ${JSON.stringify(data, null, 2)}`);
+  console.log(`===error: ${JSON.stringify(error, null, 2)}`);
   if (error) {
     throw new ApiError(500, `Error updating note: ${error.message}`);
   }

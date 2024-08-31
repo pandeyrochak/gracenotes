@@ -17,15 +17,12 @@ import {
 import { useNotesStore } from "@/store/useNotesStore";
 
 const NotesTitleBar = () => {
-  const { currentNote } = useNotesStore();
+  const { currentNote, currentNoteSavedState } = useNotesStore();
   return (
     <div className="border-b p-4 flex items-center justify-between">
       <h2 className="text-lg font-semibold">{currentNote.title}</h2>
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="icon">
-          <FilePenIcon className="h-4 w-4" />
-          <span className="sr-only">Edit</span>
-        </Button>
+        <span>{currentNoteSavedState ? "Saved" : "Unsaved"}</span>
         <Button variant="outline" size="icon">
           <DownloadIcon className="h-4 w-4" />
           <span className="sr-only">Edit</span>

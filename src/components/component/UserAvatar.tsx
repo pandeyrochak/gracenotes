@@ -29,13 +29,15 @@ const UserAvatar = () => {
         <Button variant="ghost" size="icon" className="rounded-full">
           <Avatar className="h-5 w-5">
             <AvatarImage src="" />
-            <AvatarFallback className="bg-transparent">RP</AvatarFallback>
+            <AvatarFallback className="bg-transparent text-muted-foreground">
+              RP
+            </AvatarFallback>
           </Avatar>
           <span className="sr-only">Open user menu</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
+        {/* <DropdownMenuItem>
           <Link href="#" className="flex items-center gap-2" prefetch={false}>
             <UserIcon className="h-4 w-4" />
             <span>Profile</span>
@@ -47,7 +49,7 @@ const UserAvatar = () => {
             <span>Settings</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator /> */}
         <DropdownMenuItem>
           <Link
             href="/login"

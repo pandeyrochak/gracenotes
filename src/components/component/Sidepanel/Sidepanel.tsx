@@ -29,7 +29,8 @@ const Sidepanel = () => {
           <ThemeToggle />
           <UserAvatar />
           <AddNoteButton />
-          <AddFolderButton />
+          {/* TODO: Add folder button later */}
+          {/* <AddFolderButton /> */}
         </div>
       </div>
       <Separator className="my-4" />

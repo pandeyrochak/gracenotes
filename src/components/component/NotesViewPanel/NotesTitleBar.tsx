@@ -12,7 +12,7 @@ const NotesTitleBar = () => {
     <div className="border-b p-4 flex items-center justify-between">
       <h2 className="text-lg font-semibold">{currentNote.title}</h2>
       <div className="flex items-center gap-2">
-        <span>{currentNoteSavedState ? "Saved" : "Unsaved"}</span>
+        <span className="text-sm text-muted-foreground">{currentNoteSavedState ? "Saved" : "Unsaved"}</span>
         <Button
           variant="outline"
           size="icon"

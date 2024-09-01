@@ -10,26 +10,27 @@ export const GET = asyncHandler(async (req: NextRequest) => {
   if (!userId) {
     throw new ApiError(401, "Unauthorized");
   }
-
+  // TODO: fetch folder logic to be added
   const [
-    { data: folders, error: foldersError },
+    // { data: folders, error: foldersError },
     { data: notes, error: notesError },
   ] = await Promise.all([
-    supabase.from("folders").select("id,title,user_id").eq("user_id", userId),
+    // supabase.from("folders").select("id,title,user_id").eq("user_id", userId),
     supabase
       .from("notes")
       .select("id,title,folder_id,user_id,content")
       .is("folder_id", null)
-      .eq("user_id", userId),
+      .eq("user_id", userId)
+      .order("created_at", { ascending: true }),
   ]);
 
-  if (foldersError)
-    throw new ApiError(500, `Error fetching folders: ${foldersError.message}`);
+  // if (foldersError)
+  //   throw new ApiError(500, `Error fetching folders: ${foldersError.message}`);
   if (notesError)
     throw new ApiError(500, `Error fetching notes: ${notesError.message}`);
 
   return ApiResponse.success(
-    { folders, notes },
+    { folders: [], notes },
     "Directory fetched successfully"
   );
 });

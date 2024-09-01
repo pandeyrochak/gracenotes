@@ -6,4 +6,5 @@ export interface FolderProps {
 export interface NoteProps {
   id: string;
   title: string;
+  isTemp?: boolean;
 }

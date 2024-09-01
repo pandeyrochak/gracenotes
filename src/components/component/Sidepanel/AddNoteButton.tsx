@@ -1,18 +1,18 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { FilePlus2Icon } from "lucide-react";
+import { FilePlus2Icon, SquarePen } from "lucide-react";
 import { useNotesStore } from "@/store/useNotesStore";
 import axiosInstance from "@/lib/axiosInstance";
 import { fetchDirectory } from "@/utils/functions/getFolderDirectory";
 import { useToast } from "@/components/ui/use-toast";
 
 const AddNoteButton = () => {
-  const { updateFileDirectory } = useNotesStore();
+  const { updateFileDirectory, updateTempNote } = useNotesStore();
   const { toast } = useToast();
 
   const handleCreateNote = async () => {
-    // TODO: create note logic here.
+    updateTempNote(true);
     try {
       const response = await axiosInstance.post("/notes");
       console.log(`axios response: ${JSON.stringify(response, null, 2)}`);
@@ -20,12 +20,14 @@ const AddNoteButton = () => {
         const newFileDirectory = await fetchDirectory();
         if (newFileDirectory.success) {
           updateFileDirectory(newFileDirectory.data);
+          updateTempNote(false);
           toast({
             title: "✅ Success",
             description: "Note created successfully",
             variant: "default",
           });
         } else {
+          updateTempNote(false);
           toast({
             title: "❌ Error",
             description: "Error updating directory",
@@ -34,6 +36,7 @@ const AddNoteButton = () => {
         }
       }
     } catch (error) {
+      updateTempNote(false);
       toast({
         title: "Something went wrong",
         description: `Error: ${error}`,
@@ -43,7 +46,7 @@ const AddNoteButton = () => {
   };
   return (
     <Button variant="ghost" size="icon" onClick={handleCreateNote}>
-      <FilePlus2Icon
+      <SquarePen
         className="h-5 w-5 text-muted-foreground"
         strokeWidth={"1.5"}
       />

@@ -8,9 +8,10 @@ import Loading from "@/app/home/loading"; // Adjust the import path as needed
 import { useToast } from "@/components/ui/use-toast";
 import { fetchDirectory } from "@/utils/functions/getFolderDirectory";
 import { Loader2 } from "lucide-react";
+import AddNoteButton from "./AddNoteButton";
 
 const DirectoryList = () => {
-  const { updateFileDirectory, fileDirectory } = useNotesStore();
+  const { updateFileDirectory, fileDirectory, tempNote } = useNotesStore();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
@@ -43,20 +44,32 @@ const DirectoryList = () => {
   if (isLoading)
     return (
       <p className="text-muted-foreground text-sm flex items-center justify-center">
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        <Loader2 className="mr-2 h-4 w-4 animate-spin-fast" />
         Fetching directory...
       </p>
     );
   if (error) return <div className="text-red-500">Error: {error}</div>;
-
   return (
     <div>
-      {fileDirectory?.folders?.map((folder) => (
-        <Folder id={folder.id} title={folder.title} key={folder.id} />
-      ))}
-      {fileDirectory?.notes?.map((note) => (
-        <Note id={note.id} title={note.title} key={note.id} />
-      ))}
+      {fileDirectory?.folders?.length === 0 &&
+      fileDirectory?.notes?.length === 0 ? (
+        <div className="text-muted-foreground text-sm flex items-center flex-col justify-center">
+          <AddNoteButton />
+          Create your first note
+        </div>
+      ) : (
+        <>
+          {fileDirectory?.folders?.map((folder) => (
+            <Folder id={folder.id} title={folder.title} key={folder.id} />
+          ))}
+          {fileDirectory?.notes?.map((note) => (
+            <Note id={note.id} title={note.title} key={note.id} />
+          ))}
+          {tempNote && (
+            <Note id="temp" title="Untitled Note" key="temp" isTemp={true} />
+          )}
+        </>
+      )}
     </div>
   );
 };

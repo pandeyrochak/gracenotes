@@ -8,8 +8,10 @@ import FolderContextMenu from "../Folder/FolderContextMenu";
 import { deleteNote } from "@/utils/functions/deleteNote";
 import { renameNote } from "@/utils/functions/renameNote";
 import { fetchDirectory } from "@/utils/functions/getFolderDirectory";
+import Loading from "@/app/home/loading";
+import { Loader } from "lucide-react";
 
-const Note = ({ id, title }: NoteProps) => {
+const Note = ({ id, title, isTemp }: NoteProps) => {
   const [noteTitle, setNoteTitle] = useState(title);
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -72,8 +74,17 @@ const Note = ({ id, title }: NoteProps) => {
     }
   };
 
+  if (isTemp) {
+    return (
+      <div className="sidepanel-note-item h-fit rounded-md px-3 pl-0 py-0 text-sm font-normal transition-colors hover:bg-border text-muted-foreground flex justify-between items-center">
+        <span className={`flex-grow py-2 px-0 pl-3 `}>{noteTitle}</span>
+        <Loader className="text-muted-foreground animate-spin w-4 h-4" />
+      </div>
+    );
+  }
+
   return (
-    <div className="sidepanel-note-item rounded-md px-3 pl-0 py-0 text-sm font-normal transition-colors hover:bg-border text-muted-foreground flex justify-between items-center">
+    <div className="sidepanel-note-item rounded-md px-3 pl-0 py-0 text-sm font-normal transition-colors hover:bg-border text-muted-foreground flex justify-between items-center border">
       <Link
         ref={linkRef}
         href={`/home/note/${id}`}

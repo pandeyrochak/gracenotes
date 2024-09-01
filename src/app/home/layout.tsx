@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Sidepanel from "@/components/component/Sidepanel/Sidepanel";
 import {
   ResizableHandle,
@@ -6,6 +6,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Toaster } from "@/components/ui/toaster";
+import Loading from "./loading";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -22,7 +23,9 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel className="h-screen" defaultSize={80}>
-        <div className="flex flex-col h-full">{children}</div>
+        <Suspense>
+          <div className="flex flex-col h-full">{children}</div>
+        </Suspense>
       </ResizablePanel>
     </ResizablePanelGroup>
   );

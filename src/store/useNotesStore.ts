@@ -17,6 +17,7 @@ interface NotesStoreState {
   };
   fileDirectory: fileDirectory;
   folderNotes: Record<string, Note[]>;
+  tempNote: boolean;
   updateCurrentNoteSavedState: (state: boolean) => void;
   updateCurrentNote: (note: {
     title: string;
@@ -26,6 +27,7 @@ interface NotesStoreState {
   updateFileDirectory: (directory: any) => boolean;
   updateCurrentUserId: (userId: string) => boolean;
   updateFolderNotes: (folderId: string, notes: Note[]) => boolean;
+  updateTempNote: (status: boolean) => boolean;
 }
 interface fileDirectory {
   folders: Folder[];
@@ -43,6 +45,7 @@ interface Note {
   content: string;
   created_at: string;
   folder_id: string;
+  isTemporary: boolean;
 }
 
 export const useNotesStore = create<NotesStoreState>()(
@@ -53,6 +56,7 @@ export const useNotesStore = create<NotesStoreState>()(
       folderNotes: {},
       currentNote: { title: "", content: "", id: "" },
       currentNoteSavedState: true,
+      tempNote: false,
       updateCurrentNoteSavedState: (status: boolean) => {
         set((state: NotesStoreState) => {
           state.currentNoteSavedState = status;
@@ -95,6 +99,12 @@ export const useNotesStore = create<NotesStoreState>()(
       }) => {
         set((state: NotesStoreState) => {
           state.currentNote = note;
+        });
+        return true;
+      },
+      updateTempNote: (status: boolean) => {
+        set((state: NotesStoreState) => {
+          state.tempNote = status;
         });
         return true;
       },

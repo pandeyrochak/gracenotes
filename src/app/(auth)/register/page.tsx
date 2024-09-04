@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signup } from "@/server-actions/actions";
-
+import { FaGoogle } from "react-icons/fa";
 export default function Component() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -112,7 +112,7 @@ export default function Component() {
             Continue with Github
           </Button> */}
           <Button variant="outline" className="w-full">
-            <MailIcon className="mr-2 h-4 w-4" />
+            <FaGoogle className="mr-2 h-4 w-4" />
             Continue with Google
           </Button>
         </div>

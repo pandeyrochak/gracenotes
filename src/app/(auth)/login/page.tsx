@@ -9,6 +9,7 @@ import { login, loginWithGoogle } from "@/server-actions/actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/component/ThemeToggleIcon";
+import { FaGoogle } from "react-icons/fa";
 
 export default function LoginComponent() {
   const [error, setError] = useState<string | null>(null);
@@ -92,8 +93,8 @@ export default function LoginComponent() {
             className="w-full"
             onClick={handleSignInWithGoogle}
           >
-            <MailIcon className="mr-2 h-4 w-4" />
-            Sign in with Google
+            <FaGoogle className="mr-2 h-4 w-4"  />
+            Login with Google
           </Button>
         </div>
       </div>

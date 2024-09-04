@@ -8,6 +8,9 @@ const NotesTitleBar = () => {
   const { currentNote, currentNoteSavedState } = useNotesStore();
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
+  // Check if the note content is empty
+  const isNoteEmpty = !currentNote.content || currentNote.content.trim() === "";
+
   return (
     <div className="border-b p-4 flex items-center justify-between">
       <h2 className="text-lg font-semibold">{currentNote.title}</h2>
@@ -17,6 +20,7 @@ const NotesTitleBar = () => {
           variant="outline"
           size="icon"
           onClick={() => setIsDownloadModalOpen(true)}
+          disabled={isNoteEmpty}
         >
           <DownloadIcon className="h-4 w-4" />
           <span className="sr-only">Download</span>

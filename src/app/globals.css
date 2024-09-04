@@ -119,3 +119,14 @@
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
 }
+
+/* Hide scrollbar */
+
+.hide-scrollbars {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbars::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}

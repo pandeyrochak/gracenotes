@@ -50,7 +50,7 @@ const DirectoryList = () => {
     );
   if (error) return <div className="text-red-500">Error: {error}</div>;
   return (
-    <div>
+    <div className="overflow-y-auto h-[calc(100vh-88px)] hide-scrollbars">
       {fileDirectory?.folders?.length === 0 &&
       fileDirectory?.notes?.length === 0 ? (
         <div className="text-muted-foreground text-sm flex items-center flex-col justify-center">

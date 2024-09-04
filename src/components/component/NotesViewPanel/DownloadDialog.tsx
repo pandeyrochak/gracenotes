@@ -9,7 +9,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useNotesStore } from "@/store/useNotesStore";
 import jsPDF from "jspdf";
+import { jsPDF as jsPDFType } from "jspdf"; // Add this line
 import html2canvas from "html2canvas";
+import { marked } from "marked";
+import { marked as markedType } from "marked"; // Add this line
+import "jspdf-autotable";
 
 interface DownloadNoteModalProps {
   isOpen: boolean;
@@ -34,53 +38,86 @@ const DownloadNoteModal: React.FC<DownloadNoteModalProps> = ({
   };
 
   const downloadAsPDF = async () => {
-    const pdf = new jsPDF();
-
-    // Create a temporary div to render the note content
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = currentNote.content;
-    tempDiv.style.width = "700px"; // Set a fixed width
-    tempDiv.style.padding = "20px";
-    tempDiv.style.boxSizing = "border-box";
-    tempDiv.style.fontFamily = "Arial, sans-serif";
-    tempDiv.style.fontSize = "12px";
-    tempDiv.style.lineHeight = "1.5";
-    tempDiv.style.whiteSpace = "pre-wrap"; // Preserve whitespace and line breaks
-    document.body.appendChild(tempDiv);
+    const pdf = new jsPDF() as jsPDFType;
 
     try {
-      const canvas = await html2canvas(tempDiv, {
-        scale: 2, // Increase resolution
-        useCORS: true,
-        logging: false,
-      });
-      const imgData = canvas.toDataURL("image/png");
+      // Convert Markdown to HTML
+      const htmlContent = await (marked as typeof markedType)(
+        currentNote.content
+      );
 
-      // Calculate the number of pages
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const pageCount = Math.ceil(pdfHeight / pageHeight);
+      // Parse the HTML content
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlContent, "text/html");
 
-      // Add image to PDF, creating new pages as needed
-      let heightLeft = pdfHeight;
-      let position = 0;
-      for (let i = 0; i < pageCount; i++) {
-        if (i > 0) {
+      let yOffset = 10;
+      const pageWidth = pdf.internal.pageSize.width;
+      const margin = 10;
+      const maxWidth = pageWidth - 2 * margin;
+
+      // Function to add a new page if needed
+      const checkForNewPage = (height: number) => {
+        if (yOffset + height > pdf.internal.pageSize.height - margin) {
           pdf.addPage();
+          yOffset = 10;
         }
-        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
-        heightLeft -= pageHeight;
-        position -= pageHeight;
-      }
+      };
+
+      // Process each element
+      doc.body.childNodes.forEach((node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const element = node as HTMLElement;
+
+          switch (element.tagName.toLowerCase()) {
+            case "h1":
+            case "h2":
+            case "h3":
+            case "h4":
+            case "h5":
+            case "h6":
+              const fontSize = 22 - parseInt(element.tagName.charAt(1)) * 2;
+              pdf.setFont("helvetica", "bold");
+              checkForNewPage(fontSize / 2);
+              pdf.text(element.textContent || "", margin, yOffset);
+              yOffset += fontSize / 2 + 5;
+              break;
+
+            case "p":
+              pdf.setFont("helvetica", "normal");
+              const lines = pdf.splitTextToSize(
+                element.textContent || "",
+                maxWidth
+              );
+              checkForNewPage(lines.length * 5);
+              pdf.text(lines, margin, yOffset);
+              yOffset += lines.length * 5 + 5;
+              break;
+
+            case "ul":
+            case "ol":
+              pdf.setFont("helvetica", "normal");
+              element.querySelectorAll("li").forEach((li, index) => {
+                const bullet =
+                  element.tagName.toLowerCase() === "ol"
+                    ? `${index + 1}.`
+                    : "•";
+                const text = `${bullet} ${li.textContent}`;
+                const lines = pdf.splitTextToSize(text, maxWidth - 5);
+                checkForNewPage(lines.length * 5);
+                pdf.text(lines, margin + 5, yOffset);
+                yOffset += lines.length * 5 + 2;
+              });
+              yOffset += 5;
+              break;
+          }
+        }
+      });
 
       pdf.save(`${currentNote.title}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
       // Handle error (e.g., show an error message to the user)
     } finally {
-      document.body.removeChild(tempDiv);
       onClose();
     }
   };

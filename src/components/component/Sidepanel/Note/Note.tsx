@@ -84,7 +84,7 @@ const Note = ({ id, title, isTemp }: NoteProps) => {
   }
 
   return (
-    <div className="sidepanel-note-item rounded-md px-3 pl-0 py-0 text-sm font-normal transition-colors hover:bg-border text-muted-foreground flex justify-between items-center border">
+    <div className="sidepanel-note-item rounded-md px-3 pl-0 py-0 text-sm font-normal transition-colors hover:bg-border text-muted-foreground flex justify-between items-center border border-muted mb-2">
       <Link
         ref={linkRef}
         href={`/home/note/${id}`}

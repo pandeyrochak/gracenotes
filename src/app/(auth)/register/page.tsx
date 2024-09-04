@@ -107,10 +107,10 @@ export default function Component() {
         {/* google and github buttons */}
         <Separator className="mt-7 mb-5" />
         <div className="space-y-4">
-          <Button variant="outline" className="w-full">
+          {/* <Button variant="outline" className="w-full">
             <GithubIcon className="mr-2 h-4 w-4" />
             Continue with Github
-          </Button>
+          </Button> */}
           <Button variant="outline" className="w-full">
             <MailIcon className="mr-2 h-4 w-4" />
             Continue with Google

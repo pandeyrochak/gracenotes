@@ -22,7 +22,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
     .from("notes")
     .select("content, title")
     .eq("user_id", userId)
-    .eq("id", noteId);
+    .eq("note_id", noteId);
 
   if (error) {
     throw new ApiError(500, `Error fetching note: ${error.message}`);
@@ -39,7 +39,8 @@ export const GET = asyncHandler(async (req: NextRequest) => {
 export const POST = asyncHandler(async (req: NextRequest) => {
   const supabase = createClient();
   const userId = await getCurrentUserId();
-  // const { content } = await req.json();
+  const { createdNote } = await req.json();
+  console.log(`===createdNote: ${JSON.stringify(createdNote, null, 2)}`);
 
   if (!userId) {
     throw new ApiError(401, "Unauthorized");
@@ -51,7 +52,14 @@ export const POST = asyncHandler(async (req: NextRequest) => {
 
   const { data, error } = await supabase
     .from("notes")
-    .insert([{ user_id: userId, title: "Untitled Note", content: "" }])
+    .insert([
+      {
+        user_id: userId,
+        title: "Untitled Note",
+        content: "",
+        note_id: createdNote.note_id,
+      },
+    ])
     .single();
 
   if (error) {
@@ -80,7 +88,7 @@ export const DELETE = asyncHandler(async (req: NextRequest) => {
     .from("notes")
     .delete()
     .eq("user_id", userId)
-    .eq("id", noteId)
+    .eq("note_id", noteId)
     .single();
 
   if (error) {
@@ -116,7 +124,7 @@ export const PUT = asyncHandler(async (req: NextRequest) => {
     .from("notes")
     .update(updateData)
     .eq("user_id", userId)
-    .eq("id", noteId)
+    .eq("note_id", noteId)
     .single();
 
   console.log(`===data: ${JSON.stringify(data, null, 2)}`);

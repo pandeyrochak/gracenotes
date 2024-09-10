@@ -18,7 +18,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
     // supabase.from("folders").select("id,title,user_id").eq("user_id", userId),
     supabase
       .from("notes")
-      .select("id,title,folder_id,user_id,content")
+      .select("id,title,folder_id,user_id,content, note_id")
       .is("folder_id", null)
       .eq("user_id", userId)
       .order("created_at", { ascending: true }),

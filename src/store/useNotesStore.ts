@@ -28,6 +28,7 @@ interface NotesStoreState {
   updateCurrentUserId: (userId: string) => boolean;
   updateFolderNotes: (folderId: string, notes: Note[]) => boolean;
   updateTempNote: (status: boolean) => boolean;
+  addNewNoteToStore: (note: Note) => void;
 }
 interface fileDirectory {
   folders: Folder[];
@@ -37,6 +38,7 @@ interface Folder {
   id: string;
   title: string;
   user_id: string;
+  folder_id: string;
 }
 interface Note {
   id: string;
@@ -45,7 +47,7 @@ interface Note {
   content: string;
   created_at: string;
   folder_id: string;
-  isTemporary: boolean;
+  note_id: string;
 }
 
 export const useNotesStore = create<NotesStoreState>()(
@@ -54,7 +56,7 @@ export const useNotesStore = create<NotesStoreState>()(
       currentUserId: "",
       fileDirectory: { folders: [], notes: [] },
       folderNotes: {},
-      currentNote: { title: "", content: "", id: "" },
+      currentNote: { title: "", content: "", id: "", note_id: "" },
       currentNoteSavedState: true,
       tempNote: false,
       updateCurrentNoteSavedState: (status: boolean) => {
@@ -105,6 +107,17 @@ export const useNotesStore = create<NotesStoreState>()(
       updateTempNote: (status: boolean) => {
         set((state: NotesStoreState) => {
           state.tempNote = status;
+        });
+        return true;
+      },
+      addNewNoteToStore: (note: Note) => {
+        set((state: NotesStoreState) => {
+          state.fileDirectory.notes.push(note);
+          state.currentNote = {
+            id: note.note_id,
+            title: note.title,
+            content: note.content,
+          };
         });
         return true;
       },

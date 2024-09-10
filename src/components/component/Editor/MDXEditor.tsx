@@ -50,6 +50,7 @@ export default function InitializedMDXEditor({
       {...props}
       ref={editorRef}
       contentEditableClassName={`prose dark:prose-invert ${EditorFont.className}`}
+      placeholder="Write your thoughts..."
     />
   );
 }

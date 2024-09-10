@@ -12,6 +12,7 @@ import Loading from "@/app/home/loading";
 import { Loader } from "lucide-react";
 
 const Note = ({ id, title, isTemp }: NoteProps) => {
+  console.log(`===Note: ${JSON.stringify({ id, title, isTemp }, null, 2)}`);
   const [noteTitle, setNoteTitle] = useState(title);
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);

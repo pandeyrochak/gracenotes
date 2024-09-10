@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 import AddNoteButton from "./AddNoteButton";
 
 const DirectoryList = () => {
-  const { updateFileDirectory, fileDirectory, tempNote } = useNotesStore();
+  const { updateFileDirectory, fileDirectory } = useNotesStore();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
@@ -21,6 +21,7 @@ const DirectoryList = () => {
     const response = await fetchDirectory();
     if (response.success) {
       updateFileDirectory(response.data);
+      console.log(`===response.data: ${JSON.stringify(response.data, null, 2)}`);
       toast({
         title: "Directory updated",
         description: "Directory updated successfully",
@@ -63,11 +64,11 @@ const DirectoryList = () => {
             <Folder id={folder.id} title={folder.title} key={folder.id} />
           ))}
           {fileDirectory?.notes?.map((note) => (
-            <Note id={note.id} title={note.title} key={note.id} />
+            <Note id={note.note_id} title={note.title} key={note.note_id} />
           ))}
-          {tempNote && (
+          {/* {tempNote && (
             <Note id="temp" title="Untitled Note" key="temp" isTemp={true} />
-          )}
+          )} */}
         </>
       )}
     </div>

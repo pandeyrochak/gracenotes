@@ -11,7 +11,7 @@ import { useNotesStore } from "@/store/useNotesStore";
 const NotePage = () => {
   const { id } = useParams();
   const [error, setError] = useState<string | null>(null);
-  const { updateCurrentNote } = useNotesStore();
+  const { updateCurrentNote, tempNote} = useNotesStore();
   const [loading, setLoading] = useState<boolean | null>(true);
 
   const fetchNoteContent = async () => {
@@ -37,14 +37,14 @@ const NotePage = () => {
     fetchNoteContent();
   }, [id]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   return (
     <>
       <NotesTitleBar />
-      {loading ? <Loading /> : <NotesView />}
+      {!tempNote && loading ? <Loading /> : <NotesView />}
     </>
   );
 };

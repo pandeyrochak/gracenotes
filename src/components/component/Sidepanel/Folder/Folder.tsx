@@ -49,7 +49,7 @@ const Folder = ({ id, title }: FolderProps) => {
         <CollapsibleContent className="space-y-1 pl-2 ml-4 CollapsibleFolder border-l-2 border-muted">
           {tempData ? (
             tempData.map((note: any) => (
-              <Note key={note.id} id={note.id} title={note.title} />
+              <Note key={note.note_id} id={note.note_id} title={note.title} />
             ))
           ) : (
             <div className="flex items-center justify-center h-4 w-full">

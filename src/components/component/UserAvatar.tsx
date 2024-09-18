@@ -39,7 +39,7 @@ const UserAvatar = () => {
               <UserRound />
             </AvatarFallback>
           </Avatar>
-          <span className="sr-only">Open user menu</span>
+          {/* <span className="sr-only">Open user menu</span> */}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

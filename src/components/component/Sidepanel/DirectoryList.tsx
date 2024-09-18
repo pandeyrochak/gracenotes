@@ -17,11 +17,14 @@ const DirectoryList = () => {
   const { toast } = useToast();
 
   const fetchAndUpdateDirectory = async () => {
+    console.log("fetchAndUpdateDirectory");
     setIsLoading(true);
     const response = await fetchDirectory();
     if (response.success) {
       updateFileDirectory(response.data);
-      console.log(`===response.data: ${JSON.stringify(response.data, null, 2)}`);
+      console.log(
+        `===response.data: ${JSON.stringify(response.data, null, 2)}`
+      );
       toast({
         title: "Directory updated",
         description: "Directory updated successfully",
@@ -39,7 +42,11 @@ const DirectoryList = () => {
   };
 
   useEffect(() => {
-    fetchAndUpdateDirectory();
+    if (!fileDirectory.notes.length) {
+      fetchAndUpdateDirectory();
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   if (isLoading)

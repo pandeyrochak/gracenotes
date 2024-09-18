@@ -40,14 +40,14 @@ export default function LoginComponent() {
         <ThemeToggle />
       </div>
       <div className="w-full max-w-lg space-y-4 rounded-lg border bg-card p-6 shadow-lg">
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Login</h2>
         </div>
         <Separator className="my-4" />
         <p className={`text-sm text-destructive ${error ? "block" : "hidden"}`}>
           {error}
-        </p>
-        <form className="space-y-4" onSubmit={handleLogin}>
+        </p> */}
+        {/* <form className="space-y-4" onSubmit={handleLogin}>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -62,9 +62,9 @@ export default function LoginComponent() {
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" name="password" required />
-          </div>
+          </div> */}
           {/* Button to login */}
-          <Button className="w-full" type="submit">
+          {/* <Button className="w-full" type="submit">
             Login
           </Button>
           <div className="flex justify-between">
@@ -79,10 +79,10 @@ export default function LoginComponent() {
               Don&apos;t have an account? Sign up
             </Link>
           </div>
-        </form>
+        </form> */}
 
         {/* google and github buttons */}
-        <Separator className="mt-7 mb-5" />
+        {/* <Separator className="mt-7 mb-5" /> */}
         <div className="space-y-4">
           {/* <Button variant="outline" className="w-full">
             <GithubIcon className="mr-2 h-4 w-4" />

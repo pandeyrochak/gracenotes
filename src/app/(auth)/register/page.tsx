@@ -34,14 +34,14 @@ export default function Component() {
   return (
     <div className="grid h-screen w-full place-items-center bg-background">
       <div className="w-full max-w-lg space-y-4 rounded-lg border bg-card p-6 shadow-lg">
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Create account</h2>
-        </div>
-        <Separator className="my-4" />
-        <p className={`text-sm text-destructive ${error ? "block" : "hidden"}`}>
+        </div> */}
+        {/* <Separator className="my-4" /> */}
+        {/* <p className={`text-sm text-destructive ${error ? "block" : "hidden"}`}>
           {error}
-        </p>
-        <form onSubmit={handleSignup} className="space-y-4">
+        </p> */}
+        {/* <form onSubmit={handleSignup} className="space-y-4">
           <div className="flex gap-4">
             <div className="grid gap-2">
               <Label htmlFor="first_name">First Name</Label>
@@ -103,7 +103,7 @@ export default function Component() {
               Already registered? Login
             </Link>
           </div>
-        </form>
+        </form> */}
         {/* google and github buttons */}
         <Separator className="mt-7 mb-5" />
         <div className="space-y-4">

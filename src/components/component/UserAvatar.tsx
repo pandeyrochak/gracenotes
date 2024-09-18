@@ -8,7 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOutIcon, SettingsIcon, User, UserIcon } from "lucide-react";
+import {
+  LogOutIcon,
+  SettingsIcon,
+  User,
+  UserIcon,
+  UserRound,
+} from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import logout from "@/app/(auth)/logout/logoutAction";
@@ -30,7 +36,7 @@ const UserAvatar = () => {
           <Avatar className="h-5 w-5">
             <AvatarImage src="" />
             <AvatarFallback className="bg-transparent text-muted-foreground">
-              RP
+              <UserRound />
             </AvatarFallback>
           </Avatar>
           <span className="sr-only">Open user menu</span>
